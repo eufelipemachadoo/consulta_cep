@@ -1,11 +1,12 @@
 import {useState} from 'react';
-import {FiSearch} from 'react-icons/fi';
+import {FiSearch, FiTrash, FiTrash2} from 'react-icons/fi';
 import './style.css';
 import api from './services/api';
 
 function App() {
 
-  const [input, setInput] = useState('')
+    const [input, setInput] = useState('');
+    const [cep, setCep] = useState({});
   
   
    async function handleSearch(){
@@ -16,18 +17,24 @@ function App() {
     }
 
     try{
-
+        const response = await api.get(`${input}/json`);
+        console.log(response.data)
+        setCep(response.data)
+        setInput("")
   
-     const response = await api.get('{https://viacep.com.br/ws/79031350/json/');
-     console.log(response)
+     
     } 
     catch{
-      alert("Erro ao buscar");
-      setInput("")
+      alert("Erro ao buscar")
+        setInput("")
+     
     }
+  }
 
-
-
+ function handleTrash(){
+    setInput("")
+    setCep("")
+   
   }
 
 
@@ -51,16 +58,28 @@ function App() {
       <button className="buttonSearch" onClick={handleSearch}>
         <FiSearch size={25} color="#FFF"/>
       </button>
+      
+      <button className="buttonTrash" onClick={handleTrash}>
+       <FiTrash size={25} color="#FFF"/>
+      </button>
+          
+
+
     </div>
 
-    <main className="main">
-      <h2>CEP: 79012652</h2>
-      <span>Rua Teste</span>
-      <span>Complemento: Algum Complemento</span>
-      <span>Vila Rosa</span>
-      <span>Campo Grande - MS</span>
+          {Object.keys(cep).length > 0 &&(
 
-    </main>
+              <main className="main">
+                  <h2>CEP: {cep.cep}</h2>
+                  <span>{cep.logradouro} </span>
+                  <span>{cep.bairro}</span>
+                  <span>{cep.localidade} - {cep.uf}</span>
+
+
+
+              </main>
+          )}
+
 
 
     </div>
