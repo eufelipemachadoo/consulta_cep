@@ -56,6 +56,15 @@
     cursor: pointer;
     transition: transform 0.5s;
 }
+.buttonTrash{
+    background-color: transparent;
+    border: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.5s;
+}
 
 .buttonSearch:hover{
     transform: scale(1.2);
